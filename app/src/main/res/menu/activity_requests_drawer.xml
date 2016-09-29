@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/nav_grp1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_all_requests"
+            android:icon="@drawable/ic_menu_requests"
+            android:title="@string/navigation_drawer_menu_all_requests"/>
+        <item
+            android:id="@+id/nav_requests_on_map"
+            android:icon="@drawable/ic_menu_place"
+            android:title="@string/navigation_drawer_menu_requests_on_map"/>
+    </group>
+
+
+    <item
+        android:id="@+id/nav_login"
+        android:title="@string/navigation_drawer_menu_log_in"/>
+</menu>

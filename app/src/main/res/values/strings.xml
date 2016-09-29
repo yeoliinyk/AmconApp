@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">AmconApp</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_menu_all_requests">All requests</string>
+    <string name="navigation_drawer_menu_requests_on_map">Requests on map</string>
+    <string name="navigation_drawer_menu_log_in">Login into account</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    <!--Strings related to "All requests" section-->
+    <string name="tab_in_work">IN WORK</string>
+    <string name="tab_done">DONE</string>
+    <string name="tab_waiting">WAITING</string>
+
+    <string name="action_add_new_request">Add new request is pressed.</string>
+
+</resources>
