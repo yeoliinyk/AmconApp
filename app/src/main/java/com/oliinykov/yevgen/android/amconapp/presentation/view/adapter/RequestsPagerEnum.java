@@ -24,7 +24,7 @@ import com.oliinykov.yevgen.android.amconapp.presentation.view.AllRequestsView;
  * {@link AllRequestsView}.
  */
 
-enum RequestPagerEnum {
+public enum RequestsPagerEnum {
 
 
     WAITING(R.string.tab_waiting, R.layout.view_requests_waiting),
@@ -35,7 +35,7 @@ enum RequestPagerEnum {
     private int mTitleResId;
     private int mLayoutResId;
 
-    RequestPagerEnum(int titleResId, int layoutResId) {
+    RequestsPagerEnum(int titleResId, int layoutResId) {
         this.mTitleResId = titleResId;
         this.mLayoutResId = layoutResId;
 

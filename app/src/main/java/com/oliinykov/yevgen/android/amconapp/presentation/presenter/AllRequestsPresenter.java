@@ -16,11 +16,10 @@
 
 package com.oliinykov.yevgen.android.amconapp.presentation.presenter;
 
-import android.util.Log;
-
 import com.oliinykov.yevgen.android.amconapp.domain.Request;
 import com.oliinykov.yevgen.android.amconapp.domain.interactor.DefaultSubscriber;
 import com.oliinykov.yevgen.android.amconapp.domain.interactor.GetAllRequests;
+import com.oliinykov.yevgen.android.amconapp.presentation.model.mapper.RequestModelDataMapper;
 import com.oliinykov.yevgen.android.amconapp.presentation.view.AllRequestsView;
 
 import java.util.List;
@@ -33,10 +32,13 @@ public class AllRequestsPresenter extends BasePresenter {
 
     private final AllRequestsView mView;
     private final GetAllRequests mInteractor;
+    private final RequestModelDataMapper mRequestModelDataMapper;
 
-    public AllRequestsPresenter(AllRequestsView view, GetAllRequests interactor) {
+    public AllRequestsPresenter(AllRequestsView view, GetAllRequests interactor,
+                                RequestModelDataMapper requestModelDataMapper) {
         mView = view;
         mInteractor = interactor;
+        mRequestModelDataMapper = requestModelDataMapper;
     }
 
     public void getAllRequests() {
@@ -60,7 +62,8 @@ public class AllRequestsPresenter extends BasePresenter {
 
         @Override
         public void onNext(List<Request> requests) {
-            Log.v(AllRequestsPresenter.class.getSimpleName(), requests.toString());
+            //Log.v(AllRequestsPresenter.class.getSimpleName(), requests.toString());
+            mView.renderRequests(mRequestModelDataMapper.transform(requests));
         }
     }
 }

@@ -25,8 +25,8 @@ public class Request {
     private String title;
     private String hash;
     private String created;
-    private int estimation;
-    private int likes;
+    private String estimation;
+    private String likes;
     private String status;
 
     public Request(long id) {
@@ -65,19 +65,19 @@ public class Request {
         this.created = created;
     }
 
-    public int getEstimation() {
+    public String getEstimation() {
         return estimation;
     }
 
-    public void setEstimation(int estimation) {
+    public void setEstimation(String estimation) {
         this.estimation = estimation;
     }
 
-    public int getLikes() {
+    public String getLikes() {
         return likes;
     }
 
-    public void setLikes(int likes) {
+    public void setLikes(String likes) {
         this.likes = likes;
     }
 
