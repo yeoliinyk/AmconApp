@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package com.oliinykov.yevgen.android.amconapp.presentation.view;
+package com.oliinykov.yevgen.android.amconapp.domain.executor;
 
-import com.oliinykov.yevgen.android.amconapp.presentation.model.RequestModel;
-
-import java.util.List;
+import java.util.concurrent.Executor;
 
 /**
- * A view that represents three tab with list of {@link RequestModel} in each tab.
+ * Every implementation of this interface will execute the
+ * {@link com.oliinykov.yevgen.android.amconapp.domain.interactor.Interactor} out of the UI thread.
  */
 
-public interface RequestTabView {
-
-    void renderRequests(List<RequestModel> requests);
-
+public interface InteractorExecutor extends Executor {
 }

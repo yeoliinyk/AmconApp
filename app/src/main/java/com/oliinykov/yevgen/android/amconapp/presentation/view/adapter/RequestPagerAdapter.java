@@ -22,9 +22,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.oliinykov.yevgen.android.amconapp.presentation.view.AllRequestsView;
+
 /**
  * Adapter that manages switching between tabs in
- * {@link com.oliinykov.yevgen.android.amconapp.presentation.view.RequestTabView}
+ * {@link AllRequestsView}
  */
 
 public class RequestPagerAdapter extends PagerAdapter {

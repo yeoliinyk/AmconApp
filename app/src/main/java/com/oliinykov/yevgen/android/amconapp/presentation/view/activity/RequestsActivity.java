@@ -34,7 +34,22 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.oliinykov.yevgen.android.amconapp.R;
+import com.oliinykov.yevgen.android.amconapp.data.entity.mapper.JsonSerializer;
+import com.oliinykov.yevgen.android.amconapp.data.RequestDataRepository;
+import com.oliinykov.yevgen.android.amconapp.data.ResourceManager;
+import com.oliinykov.yevgen.android.amconapp.data.entity.RequestEntity;
+import com.oliinykov.yevgen.android.amconapp.data.entity.mapper.RequestEntityDataMapper;
+import com.oliinykov.yevgen.android.amconapp.domain.executor.InteractorExecutor;
+import com.oliinykov.yevgen.android.amconapp.domain.executor.MainThread;
+import com.oliinykov.yevgen.android.amconapp.domain.interactor.GetAllRequests;
+import com.oliinykov.yevgen.android.amconapp.domain.repository.RequestRepository;
+import com.oliinykov.yevgen.android.amconapp.presentation.AmconApp;
+import com.oliinykov.yevgen.android.amconapp.presentation.model.RequestModel;
+import com.oliinykov.yevgen.android.amconapp.presentation.presenter.AllRequestsPresenter;
+import com.oliinykov.yevgen.android.amconapp.presentation.view.AllRequestsView;
 import com.oliinykov.yevgen.android.amconapp.presentation.view.adapter.RequestPagerAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +58,7 @@ import butterknife.ButterKnife;
  * Activity that shows all requests as lists in three separate tabs.
  */
 public class RequestsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AllRequestsView {
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.fab) FloatingActionButton mFab;
@@ -51,6 +66,8 @@ public class RequestsActivity extends AppCompatActivity
     @BindView(R.id.nav_view) NavigationView mNavigationView;
     @BindView(R.id.tab_layout) TabLayout mTabs;
     @BindView(R.id.viewpager) ViewPager mViewPager;
+
+    private AllRequestsPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +80,8 @@ public class RequestsActivity extends AppCompatActivity
         setupNavDrawer();
         mViewPager.setAdapter(new RequestPagerAdapter(this));
         mTabs.setupWithViewPager(mViewPager);
+        initPresenter();
+        mPresenter.getAllRequests();
     }
 
     @Override
@@ -128,5 +147,26 @@ public class RequestsActivity extends AppCompatActivity
                         Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
+    }
+
+    @Override
+    public void renderRequests(List<RequestModel> requests) {
+
+    }
+
+    private void initPresenter() {
+        MainThread mainThread = AmconApp.getMainThread(this);
+        InteractorExecutor interactorExecutor = AmconApp.getInteractorExecutor(this);
+        RequestRepository requestRepository = new RequestDataRepository(
+                new ResourceManager(getApplicationContext()),
+                new JsonSerializer<RequestEntity>(),
+                new RequestEntityDataMapper()
+        );
+        GetAllRequests interactor = new GetAllRequests(
+                interactorExecutor,
+                mainThread,
+                requestRepository
+        );
+        mPresenter = new AllRequestsPresenter(this, interactor);
     }
 }

@@ -17,10 +17,11 @@
 package com.oliinykov.yevgen.android.amconapp.presentation.view.adapter;
 
 import com.oliinykov.yevgen.android.amconapp.R;
+import com.oliinykov.yevgen.android.amconapp.presentation.view.AllRequestsView;
 
 /**
  * Provides information about all ViewPager's pages in
- * {@link com.oliinykov.yevgen.android.amconapp.presentation.view.RequestTabView}.
+ * {@link AllRequestsView}.
  */
 
 enum RequestPagerEnum {
