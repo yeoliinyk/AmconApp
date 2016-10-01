@@ -27,9 +27,9 @@ import com.oliinykov.yevgen.android.amconapp.presentation.view.AllRequestsView;
 public enum RequestsPagerEnum {
 
 
-    WAITING(R.string.tab_waiting, R.layout.view_requests_waiting),
-    INWORK(R.string.tab_in_work, R.layout.view_requests_in_work),
-    DONE(R.string.tab_done, R.layout.view_requests_done);
+    WAITING(R.string.tab_waiting, R.layout.view_listview),
+    INWORK(R.string.tab_in_work, R.layout.view_recycleview),
+    DONE(R.string.tab_done, R.layout.view_recycleview);
 
 
     private int mTitleResId;

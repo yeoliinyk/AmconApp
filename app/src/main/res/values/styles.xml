@@ -17,4 +17,42 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="AppTheme.RequestRecycleView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">@dimen/recycleview_padding</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:background">@drawable/recview_requests_background</item>
+    </style>
+
+    <style name="AppTheme.RequestListView" parent="AppTheme.RequestRecycleView">
+        <item name="android:padding">@dimen/listview_padding</item>
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">@dimen/listview_items_divider_height</item>
+    </style>
+
+    <style name="AppTheme.RequestItemView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/listview_items_margin</item>
+        <item name="android:layout_marginTop">@dimen/listview_items_margin</item>
+    </style>
+
+    <style name="AppTheme.DefaultTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/default_text_size</item>
+        <item name="android:textColor">@color/colorGray</item>
+    </style>
+
+    <style name="AppTheme.AccentTextView" parent="AppTheme.DefaultTextView">
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
+    <style name="AppTheme.RequestLinearLayoutItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/request_linearlayout_item_padding</item>
+        <item name="android:paddingBottom">@dimen/request_linearlayout_item_padding</item>
+    </style>
 </resources>

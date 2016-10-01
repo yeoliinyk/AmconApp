@@ -14,7 +14,13 @@
     <string name="tab_in_work">IN WORK</string>
     <string name="tab_done">DONE</string>
     <string name="tab_waiting">WAITING</string>
-
     <string name="action_add_new_request">Add new request is pressed.</string>
+    <string name="img_document" translatable="false">Document</string>
+
+    <!--Strings related to "Request Details" section-->
+    <string name="request_created">Created</string>
+    <string name="request_registered">Registered</string>
+    <string name="request_solve_until">Solve until</string>
+    <string name="request_responsible">Responsible</string>
 
 </resources>

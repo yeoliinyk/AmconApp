@@ -42,27 +42,25 @@ public class AllRequestsPresenter extends BasePresenter {
     }
 
     public void getAllRequests() {
-        setSubscription(
-                mInteractor
-                        .getObservable()
-                        .subscribe(new AllRequestsSubscriber())
-        );
+        setSubscription(mInteractor.getObservable().subscribe(new AllRequestsSubscriber()));
+        // show progress indicator
     }
 
     private class AllRequestsSubscriber extends DefaultSubscriber<List<Request>> {
         @Override
         public void onCompleted() {
-
+            // hide progress indicator
         }
 
         @Override
         public void onError(Throwable e) {
             e.printStackTrace();
+            // hide progress indicator
+            // show toast or snackbar with notification
         }
 
         @Override
         public void onNext(List<Request> requests) {
-            //Log.v(AllRequestsPresenter.class.getSimpleName(), requests.toString());
             mView.renderRequests(mRequestModelDataMapper.transform(requests));
         }
     }

@@ -17,6 +17,9 @@
 package com.oliinykov.yevgen.android.amconapp.presentation.view.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,35 +36,34 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Adapter that manages a collection of RequestModel.
+ * Adapter that manages a collection of {@link RequestModel}.
  */
 
 public class RequestsRecyclerAdapter extends RecyclerView.Adapter<RequestsRecyclerAdapter
         .RequestViewHolder> {
 
-    private final LayoutInflater mLayoutInflater;
-    private List<RequestModel> mRequestsList;
+    private final Context mContext;
+    private OnItemClickListener mOnItemClickListener;
+    private List<RequestModel> mRequestsList = Collections.emptyList();
 
     public RequestsRecyclerAdapter(Context context) {
-        mLayoutInflater = LayoutInflater.from(context);
-        mRequestsList = Collections.emptyList();
+        mContext = context;
+    }
+
+    public RequestsRecyclerAdapter(Context context, OnItemClickListener onItemClickListener) {
+        mContext = context;
+        mOnItemClickListener = onItemClickListener;
     }
 
     @Override
     public RequestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View row = mLayoutInflater.inflate(R.layout.row_request, parent, false);
-        return new RequestViewHolder(row);
+        final View row = LayoutInflater.from(mContext).inflate(R.layout.row_request, parent, false);
+        return new RequestViewHolder(row, mContext);
     }
 
     @Override
     public void onBindViewHolder(RequestViewHolder holder, int position) {
-        final RequestModel requestModel = mRequestsList.get(position);
-        holder.title.setText(requestModel.getTitle());
-        holder.hash.setText(requestModel.getHash());
-        holder.created.setText(requestModel.getCreated());
-        holder.estimation.setText(requestModel.getEstimation());
-        holder.likes.setText(requestModel.getLikes());
-
+        holder.bind(mRequestsList.get(position), mOnItemClickListener);
     }
 
     @Override
@@ -69,11 +71,15 @@ public class RequestsRecyclerAdapter extends RecyclerView.Adapter<RequestsRecycl
         return mRequestsList.size();
     }
 
-    public void setRequestsList(List<RequestModel> requestsList) {
-        if (requestsList != null) {
-            mRequestsList = requestsList;
+    public void updateData(List<RequestModel> data) {
+        if (data != null && !data.isEmpty()) {
+            mRequestsList = data;
             notifyDataSetChanged();
         }
+    }
+
+    public interface OnItemClickListener {
+        void onRequestItemClicked(RequestModel requestModel);
     }
 
     static class RequestViewHolder extends RecyclerView.ViewHolder {
@@ -83,9 +89,36 @@ public class RequestsRecyclerAdapter extends RecyclerView.Adapter<RequestsRecycl
         @BindView(R.id.request_estimation) TextView estimation;
         @BindView(R.id.request_likes) TextView likes;
 
-        RequestViewHolder(View itemView) {
+        private Context mContext;
+
+        RequestViewHolder(View itemView, Context context) {
             super(itemView);
+            mContext = context;
             ButterKnife.bind(this, itemView);
+        }
+
+        void bind(final RequestModel requestModel, final OnItemClickListener listener) {
+            title.setText(requestModel.getTitle());
+            hash.setText(requestModel.getHash());
+            created.setText(requestModel.getCreated());
+            estimation.setText(requestModel.getEstimation());
+            likes.setText(requestModel.getLikes());
+            likes.setCompoundDrawablesWithIntrinsicBounds(wrapLikesDrawable(), null, null, null);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onRequestItemClicked(requestModel);
+                    }
+                }
+            });
+        }
+
+        private Drawable wrapLikesDrawable() {
+            Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_thumb_up);
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawable, ContextCompat.getColor(mContext, R.color.colorGray));
+            return drawable;
         }
     }
 }

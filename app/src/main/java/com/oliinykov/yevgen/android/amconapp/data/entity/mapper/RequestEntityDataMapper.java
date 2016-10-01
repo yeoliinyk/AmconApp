@@ -36,6 +36,10 @@ public class RequestEntityDataMapper {
             request.setTitle(requestEntity.getTitle());
             request.setHash(requestEntity.getHash());
             request.setCreated(requestEntity.getCreated());
+            request.setRegistered(requestEntity.getRegistered());
+            request.setSolveUntil(requestEntity.getSolveUntil());
+            request.setResponsible(requestEntity.getResponsible());
+            request.setDescription(requestEntity.getDescription());
             request.setEstimation(requestEntity.getEstimation());
             request.setLikes(requestEntity.getLikes());
             request.setStatus(requestEntity.getStatus());

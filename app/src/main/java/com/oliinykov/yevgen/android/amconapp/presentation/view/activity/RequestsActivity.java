@@ -18,6 +18,7 @@ package com.oliinykov.yevgen.android.amconapp.presentation.view.activity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -28,18 +29,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.oliinykov.yevgen.android.amconapp.R;
 import com.oliinykov.yevgen.android.amconapp.data.RequestDataRepository;
 import com.oliinykov.yevgen.android.amconapp.data.ResourceManager;
-import com.oliinykov.yevgen.android.amconapp.data.entity.RequestEntity;
-import com.oliinykov.yevgen.android.amconapp.data.entity.mapper.JsonSerializer;
 import com.oliinykov.yevgen.android.amconapp.data.entity.mapper.RequestEntityDataMapper;
 import com.oliinykov.yevgen.android.amconapp.domain.executor.InteractorExecutor;
 import com.oliinykov.yevgen.android.amconapp.domain.executor.MainThread;
@@ -70,19 +68,28 @@ public class RequestsActivity extends AppCompatActivity
     @BindView(R.id.nav_view) NavigationView mNavigationView;
     @BindView(R.id.tab_layout) TabLayout mTabs;
     @BindView(R.id.viewpager) ViewPager mViewPager;
-    RecyclerView mWaitingRequests;
 
+    private Boolean exit = false;
     private AllRequestsPresenter mPresenter;
-    private RequestsRecyclerAdapter mRequestsAdapter;
     private RequestsPagerAdapter mRequestsPagerAdapter;
+    private RequestsRecyclerAdapter.OnItemClickListener mOnRequestItemClickListener = new
+            RequestsRecyclerAdapter.OnItemClickListener() {
+
+                @Override
+                public void onRequestItemClicked(RequestModel requestModel) {
+                    startActivity(RequestDetailsActivity.getCallingIntent(
+                            RequestsActivity.this, requestModel.getId())
+                    );
+                }
+            };
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_requests);
         ButterKnife.bind(this);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setSupportActionBar(mToolbar);
         setupNavDrawer();
         setupTabs();
@@ -92,14 +99,31 @@ public class RequestsActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
+
+    @Override
     public void onBackPressed() {
         if (mDrawer.isDrawerOpen(GravityCompat.START)) {
             mDrawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
-            finish();
+            if (exit) {
+                finish();
+            } else {
+                Toast.makeText(this, "Press Back again to Exit.", Toast.LENGTH_SHORT).show();
+                exit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        exit = false;
+                    }
+                }, 3 * 1000);
+            }
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -123,7 +147,7 @@ public class RequestsActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_all_requests) {
-
+            mToolbar.setTitle(R.string.navigation_drawer_menu_all_requests);
         } else if (id == R.id.nav_requests_on_map) {
 
         } else if (id == R.id.nav_login) {
@@ -147,27 +171,10 @@ public class RequestsActivity extends AppCompatActivity
     }
 
     private void setupTabs() {
-        mRequestsPagerAdapter = new RequestsPagerAdapter(getApplicationContext());
+        mRequestsPagerAdapter = new RequestsPagerAdapter(getApplicationContext(),
+                mOnRequestItemClickListener);
         mViewPager.setAdapter(mRequestsPagerAdapter);
         mTabs.setupWithViewPager(mViewPager);
-        Log.v(RequestsActivity.class.getSimpleName(), "Children: " + mRequestsPagerAdapter
-                .getCount());
-//        for (RequestsPagerEnum requestsPagerEnum : RequestsPagerEnum.values()) {
-//            switch (requestsPagerEnum) {
-//                case INWORK: {
-//                    View view = mTabs.getChildAt(1);
-//                    mWaitingRequests = (RecyclerView) view.findViewById(R.id
-//                            .recview_requests_in_work);
-//                    mWaitingRequests.setLayoutManager(
-//                            new LinearLayoutManager(getApplicationContext())
-//                    );
-//                    mRequestsAdapter = new RequestsRecyclerAdapter(getApplicationContext());
-//                    mWaitingRequests.setAdapter(mRequestsAdapter);
-//                }
-//            }
-//        }
-
-
     }
 
     private void setupFab() {
@@ -182,8 +189,6 @@ public class RequestsActivity extends AppCompatActivity
 
     @Override
     public void renderRequests(List<RequestModel> requests) {
-        Log.v(RequestsActivity.class.getSimpleName(), "Children " + mViewPager.getChildCount());
-        Log.v(RequestsActivity.class.getSimpleName(), "Requests " + requests.toString());
         mRequestsPagerAdapter.setRequestsList(requests);
     }
 
@@ -192,8 +197,8 @@ public class RequestsActivity extends AppCompatActivity
         InteractorExecutor interactorExecutor = AmconApp.getInteractorExecutor(this);
         RequestRepository requestRepository = new RequestDataRepository(
                 new ResourceManager(getApplicationContext()),
-                new JsonSerializer<RequestEntity>(),
-                new RequestEntityDataMapper()
+                new RequestEntityDataMapper(),
+                getApplicationContext()
         );
         GetAllRequests interactor = new GetAllRequests(
                 interactorExecutor,

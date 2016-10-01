@@ -36,6 +36,10 @@ public class RequestModelDataMapper {
             requestModel.setTitle(request.getTitle());
             requestModel.setHash(request.getHash());
             requestModel.setCreated(request.getCreated());
+            requestModel.setRegistered(request.getRegistered());
+            requestModel.setSolveUntil(request.getSolveUntil());
+            requestModel.setResponsible(request.getResponsible());
+            requestModel.setDescription(request.getDescription());
             requestModel.setEstimation(request.getEstimation());
             requestModel.setLikes(request.getLikes());
             requestModel.setStatus(request.getStatus());

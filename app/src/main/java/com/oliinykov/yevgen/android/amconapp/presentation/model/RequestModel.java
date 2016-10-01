@@ -25,6 +25,10 @@ public class RequestModel {
     private String title;
     private String hash;
     private String created;
+    private String registered;
+    private String solveUntil;
+    private String responsible;
+    private String description;
     private String estimation;
     private String likes;
     private String status;
@@ -89,6 +93,38 @@ public class RequestModel {
         this.status = status;
     }
 
+    public String getRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(String registered) {
+        this.registered = registered;
+    }
+
+    public String getSolveUntil() {
+        return solveUntil;
+    }
+
+    public void setSolveUntil(String solveUntil) {
+        this.solveUntil = solveUntil;
+    }
+
+    public String getResponsible() {
+        return responsible;
+    }
+
+    public void setResponsible(String responsible) {
+        this.responsible = responsible;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "-----------------RequestModel---------------------" + "\n" +
@@ -96,6 +132,10 @@ public class RequestModel {
                 "title: " + getTitle() + "\n" +
                 "hash" + getHash() + "\n" +
                 "created: " + getCreated() + "\n" +
+                "registered: " + getRegistered() + "\n" +
+                "solve until: " + getSolveUntil() + "\n" +
+                "responsible: " + getResponsible() + "\n" +
+                "description: " + getDescription() + "\n" +
                 "estimation: " + getEstimation() + "\n" +
                 "likes: " + getLikes() + "\n" +
                 "status: " + getStatus() + "\n" +

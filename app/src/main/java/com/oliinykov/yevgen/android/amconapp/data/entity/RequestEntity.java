@@ -16,19 +16,26 @@
 
 package com.oliinykov.yevgen.android.amconapp.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Class that represents {@link com.oliinykov.yevgen.android.amconapp.domain.Request} in data layer.
  */
 
 public class RequestEntity {
 
-    private long id;
-    private String title;
-    private String hash;
-    private String created;
-    private String estimation;
-    private String likes;
-    private String status;
+
+    @SerializedName("id") private long id;
+    @SerializedName("title") private String title;
+    @SerializedName("hash") private String hash;
+    @SerializedName("created") private String created;
+    @SerializedName("registered") private String registered;
+    @SerializedName("solve") private String solveUntil;
+    @SerializedName("responsible") private String responsible;
+    @SerializedName("desc") private String description;
+    @SerializedName("estimation") private String estimation;
+    @SerializedName("likes") private String likes;
+    @SerializedName("status") private String status;
 
     public long getId() {
         return id;
@@ -84,6 +91,38 @@ public class RequestEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(String registered) {
+        this.registered = registered;
+    }
+
+    public String getSolveUntil() {
+        return solveUntil;
+    }
+
+    public void setSolveUntil(String solveUntil) {
+        this.solveUntil = solveUntil;
+    }
+
+    public String getResponsible() {
+        return responsible;
+    }
+
+    public void setResponsible(String responsible) {
+        this.responsible = responsible;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
