@@ -36,6 +36,15 @@ public class ResourceManager {
         mContext = context;
     }
 
+    /**
+     * Reads a content from a raw resource.
+     * This is an I/O operation and this method executes in the main thread, so it is recommended to
+     * perform the operation using another thread.
+     *
+     * @param id the id of raw resource.
+     * @return a string representation of file content
+     * @throws Resources.NotFoundException
+     */
     public String readRawResource(int id) throws Resources.NotFoundException {
         StringBuilder contentBuilder = new StringBuilder();
         InputStream inputStream = mContext.getResources().openRawResource(id);

@@ -28,8 +28,16 @@ import rx.Observable;
 
 public interface RequestRepository {
 
+    /**
+     * Get an {@link Observable} which will emit a single {@link Request}.
+     *
+     * @param id the id of {@link Request}.
+     */
     Observable<Request> request(final long id);
 
+    /**
+     * Get an {@link Observable} which will emit a List of {@link Request}.
+     */
     Observable<List<Request>> requests();
 
 }

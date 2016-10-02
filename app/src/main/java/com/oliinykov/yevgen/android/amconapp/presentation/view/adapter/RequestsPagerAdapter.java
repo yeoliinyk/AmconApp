@@ -123,6 +123,11 @@ public class RequestsPagerAdapter extends PagerAdapter {
         }
     }
 
+    /**
+     * Builds a map based on {@link RequestStatus} value.
+     *
+     * @param requestsList initial list of all {@link RequestModel}.
+     */
     private void buildRequestsMap(List<RequestModel> requestsList) {
         initMap();
         for (RequestModel requestModel : requestsList) {
@@ -130,6 +135,9 @@ public class RequestsPagerAdapter extends PagerAdapter {
         }
     }
 
+    /**
+     * Initialize empty list for every {@link RequestStatus} value.
+     */
     private void initMap() {
         for (RequestStatus status : RequestStatus.values()) {
             mRequestsMap.put(status, new ArrayList<RequestModel>());

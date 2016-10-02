@@ -74,12 +74,9 @@ public class RequestsActivity extends AppCompatActivity
     private RequestsPagerAdapter mRequestsPagerAdapter;
     private RequestsRecyclerAdapter.OnItemClickListener mOnRequestItemClickListener = new
             RequestsRecyclerAdapter.OnItemClickListener() {
-
                 @Override
                 public void onRequestItemClicked(RequestModel requestModel) {
-                    startActivity(RequestDetailsActivity.getCallingIntent(
-                            RequestsActivity.this, requestModel.getId())
-                    );
+                    mPresenter.onRequestClicked(requestModel);
                 }
             };
 
@@ -109,6 +106,13 @@ public class RequestsActivity extends AppCompatActivity
     public void renderRequests(List<RequestModel> requests) {
         mRequestsPagerAdapter.updateData(requests);
         mToolbar.setTitle(R.string.navigation_drawer_menu_all_requests);
+    }
+
+    @Override
+    public void showRequestDetails(RequestModel requestModel) {
+        startActivity(
+                RequestDetailsActivity.getCallingIntent(RequestsActivity.this, requestModel.getId())
+        );
     }
 
     @Override

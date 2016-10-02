@@ -42,11 +42,19 @@ public abstract class Interactor<T> {
     }
 
 
+    /**
+     * Returns modified observable so that its subscriptions happen in background and emission -
+     * on main thread.
+     */
     public Observable<T> getObservable() {
         return buildObservable()
                 .subscribeOn(Schedulers.from(mInteractorExecutor))
                 .observeOn(mMainThread.getScheduler());
     }
 
+    /**
+     * Builds an {@link Observable} which will be used when executing the current
+     * {@link Interactor}.
+     */
     abstract Observable<T> buildObservable();
 }

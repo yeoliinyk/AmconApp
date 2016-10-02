@@ -24,6 +24,11 @@ import com.oliinykov.yevgen.android.amconapp.presentation.model.RequestModel;
 
 public interface RequestDetailsView {
 
+    /**
+     * Render a request in the UI
+     *
+     * @param requestModel The {@link RequestModel} that will be shown.
+     */
     void renderRequest(RequestModel requestModel);
 
 }

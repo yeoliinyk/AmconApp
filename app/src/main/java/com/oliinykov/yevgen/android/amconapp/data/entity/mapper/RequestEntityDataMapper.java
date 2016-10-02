@@ -29,6 +29,12 @@ import java.util.List;
 
 public class RequestEntityDataMapper {
 
+    /**
+     * Transform a {@link RequestEntity} into an {@link Request}.
+     *
+     * @param requestEntity entity to be transformed.
+     * @return {@link Request} if valid, otherwise {@code null}.
+     */
     public Request transform(RequestEntity requestEntity) {
         Request request = null;
         if (requestEntity != null) {
@@ -48,6 +54,12 @@ public class RequestEntityDataMapper {
         return request;
     }
 
+    /**
+     * Transform a List of {@link RequestEntity} into a List of {@link Request}.
+     *
+     * @param requestEntityList list of {@link RequestEntity} to be transformed.
+     * @return list of {@link Request} if source list, otherwise {@code null}.
+     */
     public List<Request> transform(List<RequestEntity> requestEntityList) {
         List<Request> requestList = new ArrayList<>();
         Request request;

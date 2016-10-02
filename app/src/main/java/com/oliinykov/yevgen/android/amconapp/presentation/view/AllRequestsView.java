@@ -26,6 +26,18 @@ import java.util.List;
 
 public interface AllRequestsView {
 
+    /**
+     * Render a list of requests in the UI.
+     *
+     * @param requests a list of {@link RequestModel} that will be shown.
+     */
     void renderRequests(List<RequestModel> requests);
+
+    /**
+     * Show a {@link RequestModel} details.
+     *
+     * @param requestModel The request that will be shown
+     */
+    void showRequestDetails(RequestModel requestModel);
 
 }

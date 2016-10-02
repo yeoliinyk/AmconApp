@@ -19,6 +19,7 @@ package com.oliinykov.yevgen.android.amconapp.presentation.presenter;
 import com.oliinykov.yevgen.android.amconapp.domain.Request;
 import com.oliinykov.yevgen.android.amconapp.domain.interactor.DefaultSubscriber;
 import com.oliinykov.yevgen.android.amconapp.domain.interactor.GetAllRequests;
+import com.oliinykov.yevgen.android.amconapp.presentation.model.RequestModel;
 import com.oliinykov.yevgen.android.amconapp.presentation.model.mapper.RequestModelDataMapper;
 import com.oliinykov.yevgen.android.amconapp.presentation.view.AllRequestsView;
 
@@ -44,6 +45,10 @@ public class AllRequestsPresenter extends BasePresenter {
     public void getAllRequests() {
         setSubscription(mInteractor.getObservable().subscribe(new AllRequestsSubscriber()));
         // show progress indicator
+    }
+
+    public void onRequestClicked(RequestModel requestModel) {
+        mView.showRequestDetails(requestModel);
     }
 
     @Override
