@@ -18,6 +18,7 @@ package com.oliinykov.yevgen.android.amconapp.presentation.model.mapper;
 
 import com.oliinykov.yevgen.android.amconapp.domain.Request;
 import com.oliinykov.yevgen.android.amconapp.presentation.model.RequestModel;
+import com.oliinykov.yevgen.android.amconapp.presentation.model.RequestStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,8 @@ public class RequestModelDataMapper {
             requestModel.setDescription(request.getDescription());
             requestModel.setEstimation(request.getEstimation());
             requestModel.setLikes(request.getLikes());
-            requestModel.setStatus(request.getStatus());
+            requestModel.setStatus(RequestStatus.valueOf(request.getStatus().toUpperCase()));
+            requestModel.setImages(request.getImages());
         }
         return requestModel;
     }

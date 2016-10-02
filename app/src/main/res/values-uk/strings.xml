@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_drawer_menu_all_requests">Усі заявки</string>
+    <string name="navigation_drawer_menu_requests_on_map">Заявки на карті</string>
+    <string name="navigation_drawer_menu_log_in">Увійти в аккаунт</string>
+
+    <string name="exit_warning">Для виходу натисніть Назад ще раз.</string>
+
+    <!--Strings related to "All requests" section-->
+    <string name="tab_in_work">У розробці</string>
+    <string name="tab_done">Виконано</string>
+    <string name="tab_waiting">Очікує</string>
+    <string name="action_add_new_request">Додати нову заявку</string>
+    <string name="action_filter">Фільтер</string>
+
+    <!--Strings related to "Request Details" section-->
+    <string name="request_created">Створено</string>
+    <string name="request_registered">Зареєстровано</string>
+    <string name="request_solve_until">Виконати до</string>
+    <string name="request_responsible">Відповідальний</string>
+</resources>

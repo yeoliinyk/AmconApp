@@ -18,6 +18,8 @@ package com.oliinykov.yevgen.android.amconapp.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Class that represents {@link com.oliinykov.yevgen.android.amconapp.domain.Request} in data layer.
  */
@@ -36,6 +38,7 @@ public class RequestEntity {
     @SerializedName("estimation") private String estimation;
     @SerializedName("likes") private String likes;
     @SerializedName("status") private String status;
+    @SerializedName("images") private List<String> images;
 
     public long getId() {
         return id;
@@ -125,16 +128,12 @@ public class RequestEntity {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "--------------RequestEntity------------------" + "\n" +
-                "id: " + getId() + "\n" +
-                "title: " + getTitle() + "\n" +
-                "hash" + getHash() + "\n" +
-                "created: " + getCreated() + "\n" +
-                "estimation: " + getEstimation() + "\n" +
-                "likes: " + getLikes() + "\n" +
-                "status: " + getStatus() + "\n" +
-                "--------------------------------------------" + "\n";
+    public List<String> getImages() {
+        return images;
     }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
 }

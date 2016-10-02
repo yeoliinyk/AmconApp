@@ -36,32 +36,40 @@ import java.util.List;
 public class RequestsListAdapter extends ArrayAdapter<RequestModel> {
 
     private final Context mContext;
+    private RequestsRecyclerAdapter.OnItemClickListener mOnItemClickListener;
 
     public RequestsListAdapter(Context context) {
         super(context, 0, new ArrayList<RequestModel>());
         mContext = context;
     }
 
+    public RequestsListAdapter(Context context, RequestsRecyclerAdapter.OnItemClickListener
+            listener) {
+        super(context, 0, new ArrayList<RequestModel>());
+        mContext = context;
+        mOnItemClickListener = listener;
+    }
+
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         RequestModel requestModel = getItem(position);
         RequestsRecyclerAdapter.RequestViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.row_request, parent,
-                    false);
+            convertView = LayoutInflater.from(mContext)
+                    .inflate(R.layout.row_request, parent, false);
             holder = new RequestsRecyclerAdapter.RequestViewHolder(convertView, mContext);
             convertView.setTag(holder);
         } else {
             holder = (RequestsRecyclerAdapter.RequestViewHolder) convertView.getTag();
         }
-        holder.bind(requestModel, null);
+        holder.bind(requestModel, mOnItemClickListener);
         return convertView;
     }
 
     public void updateData(List<RequestModel> data) {
+        clear();
         if (data != null && !data.isEmpty()) {
-            clear();
             addAll(data);
             notifyDataSetChanged();
         }

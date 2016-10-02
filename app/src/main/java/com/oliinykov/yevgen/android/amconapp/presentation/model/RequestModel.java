@@ -16,6 +16,8 @@
 
 package com.oliinykov.yevgen.android.amconapp.presentation.model;
 
+import java.util.List;
+
 /**
  * Class that represents request in presentation layer.
  */
@@ -31,7 +33,8 @@ public class RequestModel {
     private String description;
     private String estimation;
     private String likes;
-    private String status;
+    private RequestStatus status;
+    private List<String> images;
 
     public RequestModel(long id) {
         this.id = id;
@@ -85,11 +88,11 @@ public class RequestModel {
         this.likes = likes;
     }
 
-    public String getStatus() {
+    public RequestStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(RequestStatus status) {
         this.status = status;
     }
 
@@ -125,6 +128,14 @@ public class RequestModel {
         this.description = description;
     }
 
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
     @Override
     public String toString() {
         return "-----------------RequestModel---------------------" + "\n" +
@@ -138,7 +149,9 @@ public class RequestModel {
                 "description: " + getDescription() + "\n" +
                 "estimation: " + getEstimation() + "\n" +
                 "likes: " + getLikes() + "\n" +
-                "status: " + getStatus() + "\n" +
+                "status: " + getStatus().toString() + "\n" +
+                "images: " + getImages().toString() + "\n" +
                 "--------------------------------------------" + "\n";
     }
+
 }

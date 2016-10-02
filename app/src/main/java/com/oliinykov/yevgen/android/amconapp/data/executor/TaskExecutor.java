@@ -16,6 +16,8 @@
 
 package com.oliinykov.yevgen.android.amconapp.data.executor;
 
+import android.support.annotation.NonNull;
+
 import com.oliinykov.yevgen.android.amconapp.domain.executor.InteractorExecutor;
 
 import java.util.concurrent.BlockingQueue;
@@ -39,20 +41,18 @@ public class TaskExecutor implements InteractorExecutor {
     private static final int INITIAL_POOL_SIZE = 2;
     private static final int MAX_POOL_SIZE = 3;
 
-    private final BlockingQueue<Runnable> mWorkQueue;
-    private final ThreadFactory mThreadFactory;
     private final ThreadPoolExecutor mThreadPoolExecutor;
 
     public TaskExecutor() {
-        mWorkQueue = new LinkedBlockingQueue<>();
-        mThreadFactory = new WorkThreadFactory();
+        BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
+        ThreadFactory threadFactory = new WorkThreadFactory();
         mThreadPoolExecutor = new ThreadPoolExecutor(
                 INITIAL_POOL_SIZE,
                 MAX_POOL_SIZE,
                 KEEP_ALIVE_TIME,
                 KEEP_ALIVE_TIME_UNIT,
-                mWorkQueue,
-                mThreadFactory
+                workQueue,
+                threadFactory
         );
     }
 
@@ -69,7 +69,7 @@ public class TaskExecutor implements InteractorExecutor {
         private int counter = 0;
 
         @Override
-        public Thread newThread(Runnable runnable) {
+        public Thread newThread(@NonNull Runnable runnable) {
             return new Thread(runnable, THREAD_NAME + counter++);
         }
     }

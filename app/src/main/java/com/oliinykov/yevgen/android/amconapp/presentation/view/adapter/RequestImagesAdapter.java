@@ -25,6 +25,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.oliinykov.yevgen.android.amconapp.R;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -57,7 +59,12 @@ public class RequestImagesAdapter extends RecyclerView.Adapter<RequestImagesAdap
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         String url = mImagesUrlList.get(position);
         Uri uri = Uri.parse(url);
-        Picasso.with(mContext).load(uri).into(holder.imageView);
+        Picasso.with(mContext)
+                .load(uri)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .resizeDimen(R.dimen.request_image_width, R.dimen.request_image_height)
+                .into(holder.imageView);
     }
 
     @Override
@@ -68,14 +75,16 @@ public class RequestImagesAdapter extends RecyclerView.Adapter<RequestImagesAdap
     public void updateData(List<String> imagesUrlList) {
         if (imagesUrlList != null) {
             mImagesUrlList = imagesUrlList;
-            notifyDataSetChanged();
+        } else {
+            mImagesUrlList = Collections.emptyList();
         }
+        notifyDataSetChanged();
     }
 
     static class ImageViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imageview) ImageView imageView;
 
-        public ImageViewHolder(View itemView) {
+        ImageViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

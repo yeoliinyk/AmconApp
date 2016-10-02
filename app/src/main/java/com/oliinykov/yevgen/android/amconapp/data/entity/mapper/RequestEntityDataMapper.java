@@ -43,6 +43,7 @@ public class RequestEntityDataMapper {
             request.setEstimation(requestEntity.getEstimation());
             request.setLikes(requestEntity.getLikes());
             request.setStatus(requestEntity.getStatus());
+            request.setImages(requestEntity.getImages());
         }
         return request;
     }

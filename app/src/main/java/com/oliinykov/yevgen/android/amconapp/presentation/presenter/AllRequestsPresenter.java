@@ -30,9 +30,9 @@ import java.util.List;
 
 public class AllRequestsPresenter extends BasePresenter {
 
-    private final AllRequestsView mView;
     private final GetAllRequests mInteractor;
     private final RequestModelDataMapper mRequestModelDataMapper;
+    private AllRequestsView mView;
 
     public AllRequestsPresenter(AllRequestsView view, GetAllRequests interactor,
                                 RequestModelDataMapper requestModelDataMapper) {
@@ -44,6 +44,12 @@ public class AllRequestsPresenter extends BasePresenter {
     public void getAllRequests() {
         setSubscription(mInteractor.getObservable().subscribe(new AllRequestsSubscriber()));
         // show progress indicator
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mView = null;
     }
 
     private class AllRequestsSubscriber extends DefaultSubscriber<List<Request>> {

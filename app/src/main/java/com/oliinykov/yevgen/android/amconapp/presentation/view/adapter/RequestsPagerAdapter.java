@@ -26,15 +26,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.oliinykov.yevgen.android.amconapp.presentation.model.RequestModel;
+import com.oliinykov.yevgen.android.amconapp.presentation.model.RequestStatus;
 import com.oliinykov.yevgen.android.amconapp.presentation.view.AllRequestsView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.oliinykov.yevgen.android.amconapp.presentation.view.adapter.RequestsPagerEnum
-        .INWORK;
 
 /**
  * Adapter that manages views while switching between tabs in {@link AllRequestsView}.
@@ -44,29 +42,31 @@ public class RequestsPagerAdapter extends PagerAdapter {
 
     private final Context mContext;
     private final RequestsRecyclerAdapter.OnItemClickListener mOnItemClickListener;
-    private Map<RequestsPagerEnum, List<RequestModel>> mRequestsMap = new HashMap<>();
+    private Map<RequestStatus, List<RequestModel>> mRequestsMap;
 
 
     public RequestsPagerAdapter(Context context,
                                 RequestsRecyclerAdapter.OnItemClickListener listener) {
         mContext = context;
         mOnItemClickListener = listener;
+        mRequestsMap = new HashMap<>();
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        RequestsPagerEnum requestsPagerEnum = RequestsPagerEnum.values()[position];
+        RequestStatus requestStatus = RequestStatus.values()[position];
         View view = LayoutInflater.from(mContext).inflate(
-                requestsPagerEnum.getLayoutResId(),
+                requestStatus.getLayoutResId(),
                 container,
                 false
         );
 
-        switch (requestsPagerEnum) {
+        switch (requestStatus) {
             case WAITING: {
-                RequestsListAdapter adapter = new RequestsListAdapter(mContext);
+                RequestsListAdapter adapter = new RequestsListAdapter(mContext,
+                        mOnItemClickListener);
                 ((ListView) view).setAdapter(adapter);
-                adapter.updateData(mRequestsMap.get(RequestsPagerEnum.WAITING));
+                adapter.updateData(mRequestsMap.get(RequestStatus.WAITING));
                 break;
             }
             case INWORK: {
@@ -79,7 +79,7 @@ public class RequestsPagerAdapter extends PagerAdapter {
                 );
                 ((RecyclerView) view).setAdapter(adapter);
                 ((RecyclerView) view).setLayoutManager(new LinearLayoutManager(mContext));
-                adapter.updateData(mRequestsMap.get(requestsPagerEnum));
+                adapter.updateData(mRequestsMap.get(requestStatus));
                 break;
             }
             default:
@@ -101,13 +101,13 @@ public class RequestsPagerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        RequestsPagerEnum requestsPagerEnum = RequestsPagerEnum.values()[position];
-        return mContext.getString(requestsPagerEnum.getTitleResId());
+        RequestStatus requestStatus = RequestStatus.values()[position];
+        return mContext.getString(requestStatus.getTitleResId()).toUpperCase();
     }
 
     @Override
     public int getCount() {
-        return RequestsPagerEnum.values().length;
+        return RequestStatus.values().length;
     }
 
     @Override
@@ -115,35 +115,25 @@ public class RequestsPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
-    public void setRequestsList(List<RequestModel> requestsList) {
-        buildRequestsMap(requestsList);
-        notifyDataSetChanged();
+    public void updateData(List<RequestModel> requestsList) {
+        mRequestsMap.clear();
+        if (requestsList != null && !requestsList.isEmpty()) {
+            buildRequestsMap(requestsList);
+            notifyDataSetChanged();
+        }
     }
 
     private void buildRequestsMap(List<RequestModel> requestsList) {
-        ArrayList<RequestModel> waitingRequests = new ArrayList<>();
-        ArrayList<RequestModel> inworkRequests = new ArrayList<>();
-        ArrayList<RequestModel> doneRequests = new ArrayList<>();
+        initMap();
         for (RequestModel requestModel : requestsList) {
-            String status = requestModel.getStatus();
-            switch (status) {
-                case "waiting": {
-                    waitingRequests.add(requestModel);
-                    break;
-                }
-                case "inwork": {
-                    inworkRequests.add(requestModel);
-                    break;
-                }
-                case "done": {
-                    doneRequests.add(requestModel);
-                    break;
-                }
-            }
+            mRequestsMap.get(requestModel.getStatus()).add(requestModel);
         }
-        mRequestsMap.put(RequestsPagerEnum.WAITING, waitingRequests);
-        mRequestsMap.put(INWORK, inworkRequests);
-        mRequestsMap.put(RequestsPagerEnum.DONE, doneRequests);
+    }
+
+    private void initMap() {
+        for (RequestStatus status : RequestStatus.values()) {
+            mRequestsMap.put(status, new ArrayList<RequestModel>());
+        }
     }
 
 }

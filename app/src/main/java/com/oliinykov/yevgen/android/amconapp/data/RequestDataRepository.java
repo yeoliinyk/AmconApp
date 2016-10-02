@@ -35,21 +35,23 @@ import rx.Subscriber;
 import rx.functions.Func1;
 
 /**
- * this class is an implementation of {@link RequestRepository} for retrieving {@link Request} data.
+ * This class is an implementation of {@link RequestRepository} for retrieving {@link Request} data.
  */
 
 public class RequestDataRepository implements RequestRepository {
 
     private final ResourceManager mResourceManager;
     private final RequestEntityDataMapper mRequestEntityDataMapper;
-    private final Gson mGson = new Gson();
     private final Context mContext;
+    private final Gson mGson;
+
 
     public RequestDataRepository(ResourceManager resourceManager,
                                  RequestEntityDataMapper requestEntityDataMapper, Context context) {
         mResourceManager = resourceManager;
         mRequestEntityDataMapper = requestEntityDataMapper;
         mContext = context;
+        mGson = new Gson();
     }
 
     @Override
@@ -88,7 +90,7 @@ public class RequestDataRepository implements RequestRepository {
             @Override
             public void call(Subscriber<? super List<RequestEntity>> subscriber) {
                 try {
-                    String jsonString = mResourceManager.readRawResource(R.raw.dummy);
+                    String jsonString = mResourceManager.readRawResource(R.raw.request_list);
                     if (jsonString != null) {
                         Type type = new TypeToken<List<RequestEntity>>() {
                         }.getType();

@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.oliinykov.yevgen.android.amconapp.presentation.view.adapter;
+package com.oliinykov.yevgen.android.amconapp.presentation.model;
 
 import com.oliinykov.yevgen.android.amconapp.R;
 import com.oliinykov.yevgen.android.amconapp.presentation.view.AllRequestsView;
 
 /**
- * Provides information about all ViewPager's pages in
- * {@link AllRequestsView}.
+ * Represents possible conditions of
+ * {@link com.oliinykov.yevgen.android.amconapp.presentation.model.RequestModel} status and holds
+ * information about all ViewPager's pages in {@link AllRequestsView}.
  */
 
-public enum RequestsPagerEnum {
+public enum RequestStatus {
 
 
     WAITING(R.string.tab_waiting, R.layout.view_listview),
@@ -35,10 +36,9 @@ public enum RequestsPagerEnum {
     private int mTitleResId;
     private int mLayoutResId;
 
-    RequestsPagerEnum(int titleResId, int layoutResId) {
+    RequestStatus(int titleResId, int layoutResId) {
         this.mTitleResId = titleResId;
         this.mLayoutResId = layoutResId;
-
     }
 
     public int getTitleResId() {

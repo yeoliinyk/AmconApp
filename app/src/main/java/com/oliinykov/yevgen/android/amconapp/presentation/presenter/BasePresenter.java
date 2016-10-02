@@ -45,7 +45,7 @@ public class BasePresenter {
         }
     }
 
-    public void setSubscription(Subscription subscription) {
+    void setSubscription(Subscription subscription) {
         if (subscription != null) {
             mSubscription = subscription;
         }

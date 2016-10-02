@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ListView android:id="@+id/listview_requests_waiting"
-          style="@style/AppTheme.RequestListView"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+          style="@style/AppTheme.ListView"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:background="@drawable/recview_requests_background">
 </ListView>

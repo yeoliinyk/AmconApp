@@ -94,7 +94,7 @@ public class RequestsActivity extends AppCompatActivity
         setupNavDrawer();
         setupTabs();
         setupFab();
-        initPresenter();
+        setupPresenter();
         mPresenter.getAllRequests();
     }
 
@@ -102,6 +102,13 @@ public class RequestsActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+        mRequestsPagerAdapter.updateData(null);
+    }
+
+    @Override
+    public void renderRequests(List<RequestModel> requests) {
+        mRequestsPagerAdapter.updateData(requests);
+        mToolbar.setTitle(R.string.navigation_drawer_menu_all_requests);
     }
 
     @Override
@@ -112,7 +119,7 @@ public class RequestsActivity extends AppCompatActivity
             if (exit) {
                 finish();
             } else {
-                Toast.makeText(this, "Press Back again to Exit.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.exit_warning), Toast.LENGTH_SHORT).show();
                 exit = true;
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -134,26 +141,30 @@ public class RequestsActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_filter: {
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.nav_all_requests) {
-            mToolbar.setTitle(R.string.navigation_drawer_menu_all_requests);
-        } else if (id == R.id.nav_requests_on_map) {
-
-        } else if (id == R.id.nav_login) {
-
+        switch (id) {
+            case R.id.nav_all_requests: {
+                mToolbar.setTitle(R.string.navigation_drawer_menu_all_requests);
+                break;
+            }
+            case R.id.nav_requests_on_map: {
+                break;
+            }
+            case R.id.nav_login: {
+                break;
+            }
         }
-
         mDrawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -168,6 +179,7 @@ public class RequestsActivity extends AppCompatActivity
         mDrawer.addDrawerListener(toggle);
         toggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.setCheckedItem(R.id.nav_all_requests);
     }
 
     private void setupTabs() {
@@ -187,12 +199,7 @@ public class RequestsActivity extends AppCompatActivity
         });
     }
 
-    @Override
-    public void renderRequests(List<RequestModel> requests) {
-        mRequestsPagerAdapter.setRequestsList(requests);
-    }
-
-    private void initPresenter() {
+    private void setupPresenter() {
         MainThread mainThread = AmconApp.getMainThread(this);
         InteractorExecutor interactorExecutor = AmconApp.getInteractorExecutor(this);
         RequestRepository requestRepository = new RequestDataRepository(

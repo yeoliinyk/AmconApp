@@ -16,6 +16,8 @@
 
 package com.oliinykov.yevgen.android.amconapp.domain;
 
+import java.util.List;
+
 /**
  * Class that represents a Request in domain layer.
  */
@@ -32,6 +34,7 @@ public class Request {
     private String estimation;
     private String likes;
     private String status;
+    private List<String> images;
 
     public Request(long id) {
         this.id = id;
@@ -125,16 +128,12 @@ public class Request {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "-----------------Request---------------------" + "\n" +
-                "id: " + getId() + "\n" +
-                "title: " + getTitle() + "\n" +
-                "hash" + getHash() + "\n" +
-                "created: " + getCreated() + "\n" +
-                "estimation: " + getEstimation() + "\n" +
-                "likes: " + getLikes() + "\n" +
-                "status: " + getStatus() + "\n" +
-                "--------------------------------------------" + "\n";
+    public List<String> getImages() {
+        return images;
     }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
 }

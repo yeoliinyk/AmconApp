@@ -18,4 +18,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/colorAccent"/>
     <corners android:radius="50dp"/>
+    <padding
+        android:bottom="10dp"
+        android:left="20dp"
+        android:right="20dp"
+        android:top="10dp"/>
 </shape>

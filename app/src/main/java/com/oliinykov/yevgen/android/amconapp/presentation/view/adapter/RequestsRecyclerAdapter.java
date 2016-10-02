@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.oliinykov.yevgen.android.amconapp.R;
 import com.oliinykov.yevgen.android.amconapp.presentation.model.RequestModel;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,7 +44,7 @@ public class RequestsRecyclerAdapter extends RecyclerView.Adapter<RequestsRecycl
 
     private final Context mContext;
     private OnItemClickListener mOnItemClickListener;
-    private List<RequestModel> mRequestsList = Collections.emptyList();
+    private List<RequestModel> mRequestsList;
 
     public RequestsRecyclerAdapter(Context context) {
         mContext = context;
@@ -53,6 +53,7 @@ public class RequestsRecyclerAdapter extends RecyclerView.Adapter<RequestsRecycl
     public RequestsRecyclerAdapter(Context context, OnItemClickListener onItemClickListener) {
         mContext = context;
         mOnItemClickListener = onItemClickListener;
+        mRequestsList = new ArrayList<>();
     }
 
     @Override
@@ -72,8 +73,9 @@ public class RequestsRecyclerAdapter extends RecyclerView.Adapter<RequestsRecycl
     }
 
     public void updateData(List<RequestModel> data) {
+        mRequestsList.clear();
         if (data != null && !data.isEmpty()) {
-            mRequestsList = data;
+            mRequestsList.addAll(data);
             notifyDataSetChanged();
         }
     }

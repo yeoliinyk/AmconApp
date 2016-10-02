@@ -19,10 +19,12 @@ package com.oliinykov.yevgen.android.amconapp.presentation;
 import android.app.Application;
 import android.content.Context;
 
+import com.oliinykov.yevgen.android.amconapp.BuildConfig;
 import com.oliinykov.yevgen.android.amconapp.data.executor.TaskExecutor;
 import com.oliinykov.yevgen.android.amconapp.domain.executor.InteractorExecutor;
 import com.oliinykov.yevgen.android.amconapp.domain.executor.MainThread;
 import com.oliinykov.yevgen.android.amconapp.presentation.executor.UiThread;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Main application class.
@@ -47,10 +49,17 @@ public class AmconApp extends Application {
     public void onCreate() {
         super.onCreate();
         initSingletones();
+        initLeakCanary();
     }
 
     private void initSingletones() {
         mMainThread = new UiThread();
         mInteractorExecutor = new TaskExecutor();
+    }
+
+    private void initLeakCanary() {
+        if (BuildConfig.DEBUG) {
+            LeakCanary.install(this);
+        }
     }
 }

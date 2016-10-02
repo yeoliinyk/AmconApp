@@ -6,11 +6,15 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="recycleview_padding">5dp</dimen>
+    <dimen name="recyclerview_padding">5dp</dimen>
     <dimen name="listview_padding">10dp</dimen>
-    <dimen name="listview_items_margin">5dp</dimen>
+    <dimen name="recyclerview_item_margin">5dp</dimen>
     <dimen name="listview_items_divider_height">10.0sp</dimen>
     <dimen name="default_text_size">16sp</dimen>
     <dimen name="title_text_size">18sp</dimen>
-    <dimen name="request_linearlayout_item_padding">10dp</dimen>
+    <dimen name="request_rl_item_padding">10dp</dimen>
+    <dimen name="request_details_text_padding_top_bottom">10dp</dimen>
+
+    <dimen name="request_image_height">150dp</dimen>
+    <dimen name="request_image_width">150dp</dimen>
 </resources>

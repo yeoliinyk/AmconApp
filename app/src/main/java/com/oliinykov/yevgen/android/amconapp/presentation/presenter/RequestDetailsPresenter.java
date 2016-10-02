@@ -28,9 +28,9 @@ import com.oliinykov.yevgen.android.amconapp.presentation.view.RequestDetailsVie
 
 public class RequestDetailsPresenter extends BasePresenter {
 
-    private final RequestDetailsView mView;
     private final GetRequestDetails mInteractor;
     private final RequestModelDataMapper mRequestModelDataMapper;
+    private RequestDetailsView mView;
 
     public RequestDetailsPresenter(RequestDetailsView view, GetRequestDetails interactor,
                                    RequestModelDataMapper requestModelDataMapper) {
@@ -42,6 +42,12 @@ public class RequestDetailsPresenter extends BasePresenter {
     public void getRequest() {
         setSubscription(mInteractor.getObservable().subscribe(new RequestDetailsSubscriber()));
         // show progress indicator
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mView = null;
     }
 
     private class RequestDetailsSubscriber extends DefaultSubscriber<Request> {

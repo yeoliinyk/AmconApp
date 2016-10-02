@@ -25,7 +25,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.oliinykov.yevgen.android.amconapp.R;
 import com.oliinykov.yevgen.android.amconapp.data.RequestDataRepository;
@@ -42,11 +44,9 @@ import com.oliinykov.yevgen.android.amconapp.presentation.presenter.RequestDetai
 import com.oliinykov.yevgen.android.amconapp.presentation.view.RequestDetailsView;
 import com.oliinykov.yevgen.android.amconapp.presentation.view.adapter.RequestImagesAdapter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Activity that shows request details.
@@ -65,8 +65,8 @@ public class RequestDetailsActivity extends AppCompatActivity implements Request
     @BindView(R.id.request_responsible) TextView mResponsible;
     @BindView(R.id.request_description) TextView mDescription;
     @BindView(R.id.recview_request_imgs) RecyclerView mRecyclerView;
-    RequestImagesAdapter mRequestImagesAdapter;
     private ActionBar mActionBar;
+    private RequestImagesAdapter mRequestImagesAdapter;
     private RequestDetailsPresenter mPresenter;
 
     public static Intent getCallingIntent(Context context, long requestId) {
@@ -91,6 +91,7 @@ public class RequestDetailsActivity extends AppCompatActivity implements Request
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+        mRequestImagesAdapter.updateData(null);
     }
 
     private void setupActionBar() {
@@ -112,23 +113,24 @@ public class RequestDetailsActivity extends AppCompatActivity implements Request
 
     @Override
     public void renderRequest(RequestModel requestModel) {
+        mActionBar.setTitle(requestModel.getHash());
         mTitle.setText(requestModel.getTitle());
-        mStatus.setText(requestModel.getStatus());
+        mStatus.setText(getString(requestModel.getStatus().getTitleResId()));
         mCreated.setText(requestModel.getCreated());
         mRegistered.setText(requestModel.getRegistered());
         mSolveUntil.setText(requestModel.getSolveUntil());
         mResponsible.setText(requestModel.getResponsible());
         mDescription.setText(requestModel.getDescription());
-        mRequestImagesAdapter.updateData(
-                new ArrayList<>(Arrays.asList(
-                        "https://www.wired.com/wp-content/uploads/2015/04/85120553.jpg",
-                        "http://kids.nationalgeographic" +
-                                ".com/content/dam/kids/photos/games/screen-shots/More%20Games/A-G" +
-                                "/babyanimal_open.jpg",
-                        "https://encrypted-tbn3.gstatic" +
-                                ".com/images?q=tbn:ANd9GcR0ZrS2qVLMj_GGiqAZrfKWTDTP67nZ3VPDpEsYmPzXE6tDpdrK")
-                )
-        );
+        mRequestImagesAdapter.updateData(requestModel.getImages());
+    }
+
+    @OnClick({R.id.request_title, R.id.request_status, R.id.request_created,
+            R.id.request_registered, R.id.request_solve_until, R.id.request_responsible,
+            R.id.request_description
+    })
+    void onControlClick(View view) {
+        String name = getResources().getResourceEntryName(view.getId());
+        Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
     }
 
     private void initPresenter() {
